@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.mybatis.mapper.DeptMapper">
+    <!--
+    mapper接口和映射文件要保持一致：
+    1、mapper接口的全类名和映射文件的namespace一致
+    2、mapper接口中的方法的方法名要和映射文件中的sql语句的id保持一致
+    -->
+<!--Dept getEmpAndDeptByStepTwo(@Param("deptId")Integer deptId);-->
+    <select id="getEmpAndDeptByStepTwo" resultType="Dept">
+        select * from t_dept where dept_id=#{deptId}
+    </select>
+
+
+    <resultMap id="deptAndEMpResultMap" type="Dept">
+        <id column="dept_id" property="deptId"></id>
+        <result column="dept_name" property="deptName"></result>
+<!--        ofType:设置集合类型的属性中存储的数据的类型-->
+        <collection property="emps" ofType="Emp">
+            <id column="emp_id" property="empId"></id>
+            <result column="emp_name" property="empName"></result>
+            <result column="age" property="age"></result>
+            <result column="gender" property="gender"></result>
+        </collection>
+    </resultMap>
+    <!--        Dept getDeptAndEmpByDeptId(@Param("deptId")Integer deptId);-->
+    <select id="getDeptAndEmpByDeptId" resultMap="deptAndEMpResultMap">
+    select *
+    from t_dept
+    left join t_emp
+    on t_dept.dept_id = t_emp.dept_id
+    where t_dept.dept_id = #{deptId}
+    </select>
+
+
+<!--    Dept getDeptAndEmpByStepOne(@Param("deptId")Integer deptId);    -->
+    <select id="getDeptAndEmpByStepOne" resultMap=""
+</mapper>
